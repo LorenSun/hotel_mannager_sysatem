@@ -1,0 +1,20 @@
+package com.hotel.service;
+
+
+import com.hotel.common.ServerResponse;
+import com.hotel.pojo.User;
+
+/**
+ * Created by HASEE on 2017/12/5.
+ */
+public interface IUserService {
+
+    ServerResponse<User> login(String username, String password);
+
+    ServerResponse<String> register(User user);
+
+    ServerResponse<String> checkValid(String str,String type);
+
+    ServerResponse<String> checkAnswer(String username,String phone,String id_card);
+
+}
