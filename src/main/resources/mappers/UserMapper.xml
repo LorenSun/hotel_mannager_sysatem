@@ -33,7 +33,7 @@
       role, create_time, update_time
       )
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{id_card,jdbcType=VARCHAR},
       #{role,jdbcType=INTEGER}, now(), now()
       )
   </insert>
@@ -55,7 +55,7 @@
       <if test="phone != null" >
         phone,
       </if>
-      <if test="idCard != null" >
+      <if test="id_card != null" >
         id_card,
       </if>
       <if test="role != null" >
@@ -84,8 +84,8 @@
       <if test="phone != null" >
         #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="idCard != null" >
-        #{idCard,jdbcType=VARCHAR},
+      <if test="id_card != null" >
+        #{id_card,jdbcType=VARCHAR},
       </if>
       <if test="role != null" >
         #{role,jdbcType=INTEGER},
@@ -113,8 +113,8 @@
       <if test="phone != null" >
         phone = #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="idCard != null" >
-        id_card = #{idCard,jdbcType=VARCHAR},
+      <if test="id_card != null" >
+        id_card = #{id_card,jdbcType=VARCHAR},
       </if>
       <if test="role != null" >
         role = #{role,jdbcType=INTEGER},
@@ -134,7 +134,7 @@
       password = #{password,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
-      id_card = #{idCard,jdbcType=VARCHAR},
+      id_card = #{id_card,jdbcType=VARCHAR},
       role = #{role,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = now()
@@ -143,19 +143,19 @@
 
   <select id="checkUsername" resultType="int" parameterType="string">
     select count(1) from hotel_user
-    where username = ${username}
+    where username = '${username}'
   </select>
   <select id="checkEmail" resultType="int" parameterType="string">
     select count(1) from hotel_user
-    where email = ${email}
+    where email = '${email}'
   </select>
   <select id="checkPhone" resultType="int" parameterType="string">
     select count(1) from hotel_user
-    where phone = ${phone}
+    where phone = '${phone}'
   </select>
   <select id="checkIDCard" resultType="int" parameterType="string">
     select count(1) from hotel_user
-    where id_card = ${id_card}
+    where id_card = '${id_card}'
   </select>
   <select id="selectLogin" resultMap="BaseResultMap" parameterType="map">
     select
@@ -171,5 +171,24 @@
     where username = #{username}
     and phone = #{phone}
     and id_card = #{id_card}
+  </select>
+  <update id="updatePasswordByUsername" parameterType="map">
+    update hotel_user
+    set password = #{passwordNew},update_time = now()
+    where username = #{username}
+  </update>
+  <select id="checkPassword" resultType="int" parameterType="map">
+    select
+    count(1)
+    from hotel_user
+    where id = #{userId}
+    and password = #{password}
+  </select>
+  <select id="checkEmailByUserId" resultType="int" parameterType="map">
+    select
+    count(1)
+    from hotel_user
+    where email = #{email}
+    and id != #{userId}
   </select>
 </mapper>

@@ -13,7 +13,7 @@ public class User {
 
     private String phone;
 
-    private String idCard;
+    private String id_card;
 
     private Integer role;
 
@@ -21,13 +21,13 @@ public class User {
 
     private Date updateTime;
 
-    public User(Integer id, String username, String password, String email, String phone, String idCard, Integer role, Date createTime, Date updateTime) {
+    public User(Integer id, String username, String password, String email, String phone, String id_card, Integer role, Date createTime, Date updateTime) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
         this.phone = phone;
-        this.idCard = idCard;
+        this.id_card = id_card;
         this.role = role;
         this.createTime = createTime;
         this.updateTime = updateTime;
@@ -77,25 +77,17 @@ public class User {
         this.phone = phone == null ? null : phone.trim();
     }
 
-    public String getIdCard() {
-        return idCard;
-    }
+    public String getId_card() {return id_card;}
 
-    public void setIdCard(String idCard) {
-        this.idCard = idCard == null ? null : idCard.trim();
-    }
+    public void setId_card(String id_card) {this.id_card = id_card == null ? null : id_card.trim();}
 
-    public Integer getRole() {
-        return role;
-    }
+    public Integer getRole() {return role;}
 
     public void setRole(Integer role) {
         this.role = role;
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+    public Date getCreateTime() {return createTime;}
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
