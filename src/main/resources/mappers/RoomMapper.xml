@@ -187,4 +187,38 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectList" resultMap="BaseResultMap" >
+    SELECT
+    <include refid="Base_Column_List"/>
+    from hotel_room
+    ORDER BY id asc
+  </select>
+  <select id="selectByNameAndRoomId" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from hotel_room
+    <where>
+      <if test="roomNum != null">
+        and room_num like #{roomNum}
+      </if>
+      <if test="roomId != null">
+        and id = #{roomId}
+      </if>
+    </where>
+  </select>
+  <select id="selectByNameAndCategoryIds" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    from hotel_room
+    where status = 1
+    <if test="roomNum != null">
+      and room_num like #{roomNum}
+    </if>
+    <if test="categoryIdList != null" >
+      and category_id in
+      <foreach item="item" index="index" open="(" separator="," close=")" collection="categoryIdList">
+        #{item}
+      </foreach>
+    </if>
+  </select>
 </mapper>
