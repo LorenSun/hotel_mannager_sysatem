@@ -26,5 +26,4 @@ public interface CartMapper {
 
     int deleteByUserIdRoomIds(@Param("userId") Integer userId, @Param("roomId")Integer roomId);
 
-
 }

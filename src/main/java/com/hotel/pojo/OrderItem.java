@@ -114,11 +114,11 @@ public class OrderItem {
         this.roomImage = roomImage == null ? null : roomImage.trim();
     }
 
-    public BigDecimal getCurrrentUnitPrice() {
+    public BigDecimal getCurrentUnitPrice() {
         return currrentUnitPrice;
     }
 
-    public void setCurrrentUnitPrice(BigDecimal currrentUnitPrice) {
+    public void setCurrentUnitPrice(BigDecimal currrentUnitPrice) {
         this.currrentUnitPrice = currrentUnitPrice;
     }
 
