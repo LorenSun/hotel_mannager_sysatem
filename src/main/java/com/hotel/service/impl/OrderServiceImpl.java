@@ -81,7 +81,7 @@ public class OrderServiceImpl implements IOrderService {
     private RoomMapper roomMapper;
 
 
-    public ServerResponse createOrder(Integer userId, Integer shippingId){
+    public ServerResponse createOrder(Integer userId, Integer cartId){
 
         //从购物车中获取数据
         List<Cart> cartList = cartMapper.selectCartByUserId(userId);
@@ -96,7 +96,7 @@ public class OrderServiceImpl implements IOrderService {
 
 
         //生成订单
-        Order order = this.assembleOrder(userId,shippingId,payment);
+        Order order = this.assembleOrder(userId,cartId,payment);
         if(order == null){
             return ServerResponse.createByErrorMessage("生成订单错误");
         }
@@ -107,7 +107,7 @@ public class OrderServiceImpl implements IOrderService {
             orderItem.setOrderNo(order.getOrderNo());
         }
         //mybatis 批量插入
-        orderItemMapper.batchInsert(orderItemList);
+       // orderItemMapper.batchInsert(orderItemList);
 
         //清空一下购物车
         this.cleanCart(cartList);
@@ -184,7 +184,7 @@ public class OrderServiceImpl implements IOrderService {
     }
 
 
-    private Order assembleOrder(Integer userId,Integer shippingId,BigDecimal payment){
+    private Order assembleOrder(Integer userId,Integer cartId,BigDecimal payment){
         Order order = new Order();
         long orderNo = this.generateOrderNo();
         order.setOrderNo(orderNo);
@@ -193,8 +193,6 @@ public class OrderServiceImpl implements IOrderService {
         order.setPayment(payment);
 
         order.setUserId(userId);
-        //发货时间等等
-        //付款时间等等
         int rowCount = orderMapper.insert(order);
         if(rowCount > 0){
             return order;

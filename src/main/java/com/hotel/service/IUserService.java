@@ -3,6 +3,7 @@ package com.hotel.service;
 
 import com.hotel.common.ServerResponse;
 import com.hotel.pojo.User;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * Created by HASEE on 2017/12/5.
@@ -26,5 +27,9 @@ public interface IUserService {
     ServerResponse<User> getInformation(Integer userId);
 
     ServerResponse checkAdminRole(User user);
+
+    ServerResponse setRoleCustomer(@Param("userId") Integer userId, @Param("role")Integer role);
+
+    ServerResponse setRoleReceptionist(@Param("userId") Integer userId, @Param("role")Integer role);
 
 }

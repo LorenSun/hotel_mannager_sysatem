@@ -1,6 +1,7 @@
 package com.hotel.controller.backend;
 
 import com.hotel.common.Const;
+import com.hotel.common.ResponseCode;
 import com.hotel.common.ServerResponse;
 import com.hotel.pojo.User;
 import com.hotel.service.IUserService;
@@ -36,5 +37,33 @@ public class UserMannageController {
             }
         }
         return response;
+    }
+    @RequestMapping("set_role_customer.do")
+    @ResponseBody
+    public ServerResponse setRoleCustomer(HttpSession session,Integer userId,Integer role){
+        User user  = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null)
+        {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请登录");
+        }
+        if (iUserService.checkAdminRole(user).isSuccess()){
+            return  iUserService.setRoleCustomer(userId,role);
+        }else {
+            return ServerResponse.createByErrorMessage("无权限操作，需要经理权限");
+        }
+    }
+    @RequestMapping("set_role_receptionist.do")
+    @ResponseBody
+    public ServerResponse setRoleReceptionist(HttpSession session,Integer userId,Integer role){
+        User user  = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null)
+        {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请登录");
+        }
+        if (iUserService.checkAdminRole(user).isSuccess()){
+            return  iUserService.setRoleReceptionist(userId,role);
+        }else {
+            return ServerResponse.createByErrorMessage("无权限操作，需要经理权限");
+        }
     }
 }

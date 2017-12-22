@@ -9,6 +9,7 @@ import com.hotel.service.IUserService;
 import com.hotel.util.MD5Util;
 import com.sun.corba.se.spi.activation.Server;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -180,6 +181,32 @@ public class UserServiceImpl implements IUserService{
         }
         user.setPassword(StringUtils.EMPTY);
         return ServerResponse.createBySuccess(user);
+    }
+    public ServerResponse setRoleCustomer(Integer userId,Integer role){
+        User user = userMapper.selectByPrimaryKey(userId);
+        if(user == null){
+            return ServerResponse.createByErrorMessage("找不到当前用户");
+        }
+        User updateUser = new User();
+        updateUser.setRole(Const.Role.ROLE_CUSTOMER);
+        int updateCount = userMapper.updateByPrimaryKeySelective(updateUser);
+        if(updateCount > 0){
+            return ServerResponse.createBySuccess("更新用户信息成功",updateUser);
+        }
+        return ServerResponse.createByErrorMessage("更新用户信息失败");
+    }
+    public ServerResponse setRoleReceptionist(Integer userId,Integer role){
+        User user = userMapper.selectByPrimaryKey(userId);
+        if(user == null){
+            return ServerResponse.createByErrorMessage("找不到当前用户");
+        }
+        User updateUser = new User();
+        updateUser.setRole(Const.Role.ROLE_RECEPTIONIST);
+        int updateCount = userMapper.updateByPrimaryKeySelective(updateUser);
+        if(updateCount > 0){
+            return ServerResponse.createBySuccess("更新用户信息成功",updateUser);
+        }
+        return ServerResponse.createByErrorMessage("更新用户信息失败");
     }
 
     //backend
