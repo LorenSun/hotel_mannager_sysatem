@@ -10,19 +10,27 @@ var _wh = {
       url     : param.url    || '',
       dataType: param.type   || 'json',
       data    : param.data   || '',
+      xhrFields: {
+                    withCredentials: true
+                },  
+      crossDomain: true,
+      //cache: false, //设置为 false 将不会从浏览器缓存中加载请求信息。
+      //async: true, //(默认: true)，所有请求均为异步请求。发送同步请求，请将此选项设置为 false。同步请求将锁住浏览器，用户其它操作必须等待请求完成才可以执行。
+      //timeout: 1500, //设置请求超时时间（毫秒）。此设置将覆盖全局设置。
       success : function(res){
-        //请求成功
-        if(res.status === 0){
-          typeof param.success() === 'function' && param.success(res.data,res.msg);
-        }
-        //没有登录状态，需要强制登录
-        else if(res.status === 10){
-          _this.dologin();
-        }
-        //请求数据错误
-        else if(res.status === 1){
-          typeof param.error() === 'function' && param.error(res.msg);
-        }
+                alert(res.status+' '+res.msg);
+                // 请求成功
+                if(0 === res.status){
+                    typeof param.success === 'function' && param.success(res.data, res.msg);
+                }
+                // 没有登录状态，需要强制登录
+                else if(10 === res.status){
+                    _this.doLogin();
+                }
+                // 请求数据错误
+                else if(1 === res.status){
+                    typeof param.error === 'function' && param.error(res.msg);
+                }
       },
       error   : function(err){
           typeof param.error() === 'function' && param.error(err.statusText);
@@ -42,7 +50,7 @@ var _wh = {
   //渲染html模板
   renderHtml :function(htmlTemplate,data){
     var template = Hogan.compile(htmlTemplate);
-        result = template.render(data);
+    var result = template.render(data);
     return result;
   },
   // 成功提示
@@ -68,10 +76,17 @@ var _wh = {
       if('email' === type){
           return /^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/.test(value);
       }
+      if('idcard' === type){
+          return /^[1-9]\d{5}[1-9]\d{3}((0[1-9])|(1[0-2]))((0[1-9])|([1-2]\d)|(3[0-1]))((\d{4})|(\d{3}[Xx]))$/.test(value);
+      }
   },
   //统一登录处理
-  dologin : function(){
-    window.location.href = './login.html?redirect=' + encodeURIComponent(window.location.hre);
+  doLogin : function(){
+    window.location.href = './user-login.html?redirect='+ encodeURIComponent(window.location.href);
+  },
+  //返回首页
+  goHome :function(){
+    window.location.href = './index.html';
   }
 };
 module.exports = _wh;

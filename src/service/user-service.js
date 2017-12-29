@@ -43,19 +43,7 @@ var _user = {
             error   : reject
         });
     },
-    // 获取用户密码提示问题
-    getQuestion : function(username, resolve, reject){
-        _wh.request({
-            url     : _wh.getServerUrl('/user/forget_get_question.do'),
-            data    : {
-                username : username
-            },
-            method  : 'POST',
-            success : resolve,
-            error   : reject
-        });
-    },
-    // 检查密码提示问题答案
+    // 检查用户信息
     checkAnswer : function(userInfo, resolve, reject){
         _wh.request({
             url     : _wh.getServerUrl('/user/forget_check_answer.do'),
