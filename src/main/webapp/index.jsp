@@ -1,5 +1,6 @@
+<%@ page language="java"  contentType="text/html; charset=UTF-8" %>
+
 <html>
-<body>
-<h2>Hello World!</h2>
+<body><jsp:forward page="./dist/view/index.html" />
 </body>
 </html>
